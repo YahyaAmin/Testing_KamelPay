@@ -1,14 +1,19 @@
 package tests;
 
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.Dimension;
 import org.testng.annotations.Test;
 
 import java.security.SecureRandom;
+import java.time.Duration;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
 
-public class UsefulFunctions {
+public class UsefulFunctions extends Base_Class {
 
 
     public static String getRandomNumberString() {
@@ -168,4 +173,8 @@ public class UsefulFunctions {
         String pwd = RandomStringUtils.random(random_integer, characters);
         return pwd;
     }
+
+
+    //Scrolling function
+
 }
