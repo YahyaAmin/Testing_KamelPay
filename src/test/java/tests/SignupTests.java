@@ -899,7 +899,7 @@ public class SignupTests extends Base_Class {
         Thread.sleep(3000);
 
         //Entering OTP
-        driver.findElement(By.xpath(enter_otp_1st_slot_sign_up)).sendKeys(otp_less_than_6_digits());
+        driver.findElement(By.xpath(enter_otp_1st_slot_sign_up)).sendKeys(getOTPLessThan6Digits());
         driver.findElement(By.xpath(next_button_at_otp_screen_sign_up_flow)).click();
         Thread.sleep(2000);
         driver.findElement(By.xpath(next_button_at_otp_screen_sign_up_flow)).click();

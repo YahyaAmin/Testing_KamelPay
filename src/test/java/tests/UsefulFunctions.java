@@ -83,7 +83,7 @@ public class UsefulFunctions extends Base_Class {
 
         //random no of characters
         Random rand = new Random();
-        int lowerbound = 5;
+        int lowerbound = 6;
         int upperbound = 15;
         int random_integer = rand.nextInt(upperbound - lowerbound) + lowerbound;
 
@@ -105,7 +105,7 @@ public class UsefulFunctions extends Base_Class {
 
         //random no of characters
         Random rand = new Random();
-        int lowerbound = 5;
+        int lowerbound = 6;
         int upperbound = 15;
         int random_integer = rand.nextInt(upperbound - lowerbound) + lowerbound;
 
@@ -146,12 +146,26 @@ public class UsefulFunctions extends Base_Class {
     }
 
 
-    public static String otp_less_than_6_digits() {
+    public static String getOTPLessThan6Digits() {
 
         //random no of characters
         Random rand = new Random();
         int lowerbound = 1;
         int upperbound = 6;
+        int random_integer = rand.nextInt(upperbound - lowerbound) + lowerbound;
+
+
+        String characters = "0123456789";
+        String pwd = RandomStringUtils.random(random_integer, characters);
+        return pwd;
+    }
+
+    //Pin code less than 4 digits
+
+    public static String getRandomNumberLowerAndUpperBound(int lowerbound, int upperbound) {
+
+        //random no of characters
+        Random rand = new Random();
         int random_integer = rand.nextInt(upperbound - lowerbound) + lowerbound;
 
 
