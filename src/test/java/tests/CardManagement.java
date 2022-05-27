@@ -11,8 +11,10 @@ import org.openqa.selenium.WebElement;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.MobileElement;
 import org.openqa.selenium.interactions.touch.TouchActions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.springframework.core.annotation.Order;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 
@@ -20,6 +22,10 @@ import static tests.Base_Class.driver;
 import static tests.UsefulFunctions.*;
 
 public class CardManagement extends Base_Class {
+
+
+    //create a soft-assertion object
+    SoftAssert softAssert = new SoftAssert();
 
     //scroll down function
 
@@ -123,6 +129,8 @@ public class CardManagement extends Base_Class {
 
     public String back_button_at_transaction_history_page = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.view.ViewGroup[1]/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.TextView";
 
+    public String pop_up_appearing_after_changing_pin_successfully = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.TextView[1]";
+
 
 
     @Test //Check whether back button is working on Card Management
@@ -130,7 +138,7 @@ public class CardManagement extends Base_Class {
     public void CardManagementCase1() throws InterruptedException {
 
         //login steps
-        Thread.sleep(4000);
+        Thread.sleep(2000);
         driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
         driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
         Thread.sleep(3000);
@@ -766,7 +774,115 @@ public class CardManagement extends Base_Class {
     }
 
 
-    //SOME TEST CASES LEFT
+
+    @Test //Change pin through card management screen but pin has spaces
+    @Order(16)
+    public void CardManagementCasr16() throws InterruptedException {
+
+        //login steps
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(3000);
+
+        //card management steps
+        driver.findElement(By.xpath(card_management_centiv_card)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(change_pin_button_at_card_management)).click();
+        Thread.sleep(2000);
+
+        //OTP steps
+        driver.findElement(By.xpath(otp_verification_1st_digit_card_management_flow)).sendKeys("666666");
+        Thread.sleep(500);
+        driver.findElement(By.xpath(next_button_at_otp_screen)).click();
+        Thread.sleep(4000);
+
+        //Change Pin steps
+        String pin_code_for_this_test = "1 0 ";
+        driver.findElement(By.xpath(enter_new_pin_1st_place_at_change_pin_screen)).sendKeys(pin_code_for_this_test);
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(confirm_your_new_pin_at_change_pin_screen)).sendKeys(pin_code_for_this_test);
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(next_button_at_change_pin_screen)).click();
+        Thread.sleep(5000);
+
+        //get text of pop_up
+        String pop_up_text = driver.findElement(By.xpath(pop_up_appearing_after_changing_pin_successfully)).getText();
+
+        //assertion
+        //softAssert.
+        softAssert.assertEquals(pop_up_text, "failed", "TestCase 16");
+
+        //reset the app
+        driver.resetApp();
+
+        softAssert.assertAll();
+
+    }
+
+
+    @Test //Change pin through card management screen but pin has special characters
+    @Order(17)
+    public void CardManagementCasr17() throws InterruptedException {
+
+        //login steps
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(3000);
+
+        //card management steps
+        driver.findElement(By.xpath(card_management_centiv_card)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(change_pin_button_at_card_management)).click();
+        Thread.sleep(2000);
+
+        //OTP steps
+        driver.findElement(By.xpath(otp_verification_1st_digit_card_management_flow)).sendKeys("666666");
+        Thread.sleep(500);
+        driver.findElement(By.xpath(next_button_at_otp_screen)).click();
+        Thread.sleep(4000);
+
+        //Change Pin steps
+        String pin_code_for_this_test = ".,.,";
+        driver.findElement(By.xpath(enter_new_pin_1st_place_at_change_pin_screen)).sendKeys(pin_code_for_this_test);
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(confirm_your_new_pin_at_change_pin_screen)).sendKeys(pin_code_for_this_test);
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(next_button_at_change_pin_screen)).click();
+        Thread.sleep(5000);
+
+        //get text of pop_up
+        String pop_up_text = driver.findElement(By.xpath(pop_up_appearing_after_changing_pin_successfully)).getText();
+
+        //assertion
+        //softAssert.
+        softAssert.assertEquals(pop_up_text, "Failed", "TestCase 17");
+
+        //reset the app
+        driver.resetApp();
+
+        softAssert.assertAll();
+
+    }
 
 
     @Test //Check if user can block both cards on card management

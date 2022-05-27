@@ -1,13 +1,19 @@
 package tests;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.springframework.core.annotation.Order;
 import org.testng.annotations.Test;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import static tests.UsefulFunctions.getRandomNumberString;
 
 
 public class LoginTests extends Base_Class {
+
+
+
     public String login_button_on_mainscreen = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.ScrollView/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[5]";
     public String phone_no_on_mainscreen_xpath = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.ScrollView/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.EditText";
     public String password_on_mainscreen_xpath = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.ScrollView/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[3]/android.widget.EditText";
@@ -82,19 +88,19 @@ public class LoginTests extends Base_Class {
     @Order(1)
     public void loginCase1() throws InterruptedException {
 
-        Thread.sleep(4000);
+        //Thread.sleep(4000);
         driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
         driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
         driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
         driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
-        Thread.sleep(2000);
+        //Thread.sleep(2000);
         driver.findElement(By.xpath(login_button_on_mainscreen)).click();
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
 
         //dont allow biometric
         driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
-        Thread.sleep(3000);
+        Thread.sleep(4000);
         //logged in
         //close driver
         driver.resetApp();
@@ -107,32 +113,33 @@ public class LoginTests extends Base_Class {
     public void loginCase2() throws InterruptedException {
 
         //login with phone no and password
-        Thread.sleep(2000);
+
+        //Thread.sleep(2000);
         driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
         driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
         driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
         driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
-        Thread.sleep(1000);
+        //Thread.sleep(1000);
         //view password button
         driver.findElement(By.xpath(eye_button_to_view_password_login_screen)).click();
-        Thread.sleep(1000);
+        //Thread.sleep(1000);
         //click on login
         driver.findElement(By.xpath(login_button_on_mainscreen)).click();
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
 
         //dont allow biometric
         driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
         //logged in
 
         //setup pin login
         driver.findElement(By.xpath(three_lines_home_button_at_homescreen)).click();
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
         driver.findElement(By.xpath(settings_button_sidebar)).click();
-        Thread.sleep(2000);
+        //Thread.sleep(2000);
         driver.findElement(By.xpath(setup_pin_button_sidebar)).click();
-        Thread.sleep(2000);
+        //Thread.sleep(2000);
         driver.findElement(By.xpath(enter_new_pin_1st)).click();
         driver.findElement(By.xpath(enter_new_pin_1st)).sendKeys("9");
         driver.findElement(By.xpath(enter_new_pin_2nd)).click();
@@ -141,7 +148,7 @@ public class LoginTests extends Base_Class {
         driver.findElement(By.xpath(enter_new_pin_3rd)).sendKeys("3");
         driver.findElement(By.xpath(enter_new_pin_4th)).click();
         driver.findElement(By.xpath(enter_new_pin_4th)).sendKeys("5");
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
         driver.findElement(By.xpath(confirm_pin_1st)).click();
         driver.findElement(By.xpath(confirm_pin_1st)).sendKeys("9");
         driver.findElement(By.xpath(confirm_pin_2nd)).click();
@@ -150,17 +157,17 @@ public class LoginTests extends Base_Class {
         driver.findElement(By.xpath(confirm_pin_3rd)).sendKeys("3");
         driver.findElement(By.xpath(confirm_pin_4th)).click();
         driver.findElement(By.xpath(confirm_pin_4th)).sendKeys("5");
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
         driver.findElement(By.xpath(submit_button_on_setup_pin_page)).click();
-        Thread.sleep(9000);
+        //Thread.sleep(9000);
         driver.findElement(By.xpath(back_button_top_left)).click();
-        Thread.sleep(3000);
+        Thread.sleep(8000);
         driver.findElement(By.xpath(three_lines_home_button_at_homescreen)).click();
-        Thread.sleep(1000);
+        Thread.sleep(8000);
 
         //logout of app after setting up pin
         driver.findElement(By.xpath(logout_button_settings_panel)).click();
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
 
         //input correct pin to login and login to the app
         driver.findElement(By.xpath(pin_login_key_number_9)).click();
@@ -176,16 +183,16 @@ public class LoginTests extends Base_Class {
     @Test
     @Order(4)
     public void loginCase4() throws InterruptedException {
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
         driver.findElement(By.xpath(forgot_password_at_login_screen)).click();
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
         driver.findElement(By.xpath(e_id_field_at_forgot_password_screen)).sendKeys("784197848020307");
         driver.findElement(By.xpath(phone_number_field_at_forgot_password_screen)).sendKeys("123456789");
         driver.findElement(By.xpath(next_button_at_forgot_password_screen)).click();
-        Thread.sleep(2000);
+        //Thread.sleep(2000);
         driver.findElement(By.xpath(otp_1st_digit_at_forgot_password_flow)).sendKeys("666666");
         driver.findElement(By.xpath(next_button_otp_verification_screen_forgot_password_flow)).click();
-        Thread.sleep(2000);
+        //Thread.sleep(2000);
         driver.findElement(By.xpath(enter_new_password_forgot_password_flow)).sendKeys("Password123!");
         driver.findElement(By.xpath(confirm_new_password_forgot_password_flow)).sendKeys("Password123!");
         driver.findElement(By.xpath(view_password_button_forgot_password_flow)).click();
@@ -198,23 +205,23 @@ public class LoginTests extends Base_Class {
         //Login with updated password
         driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
         driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
         driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
         driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
-        Thread.sleep(2000);
+        //Thread.sleep(2000);
 
         //click on view password button
         driver.findElement(By.xpath(eye_button_to_view_password_login_screen)).click();
         Thread.sleep(3000);
         driver.findElement(By.xpath(eye_button_to_view_password_login_screen)).click();
-        Thread.sleep(1000);
+        //Thread.sleep(1000);
 
         driver.findElement(By.xpath(login_button_on_mainscreen)).click();
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
 
         //dont allow biometric
         driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
-        Thread.sleep(3000);
+        Thread.sleep(4000);
         //logged in
 
         driver.resetApp();

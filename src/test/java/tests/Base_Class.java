@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -31,6 +32,8 @@ public class Base_Class {
     //AppiumDriver driver;
     public static AppiumDriver<AndroidElement> driver;
 
+
+
     @BeforeTest
     public void setup() {
 
@@ -53,6 +56,8 @@ public class Base_Class {
 
         driver = new AndroidDriver<AndroidElement>(url, caps);
 
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
     }
         catch(Exception exp){
                 System.out.println("Cause is: " + exp.getCause());
@@ -64,13 +69,12 @@ public class Base_Class {
 
 //    @Test
 //    public void SampleTest(){
-//        System.out.println("Starting Tests");
+//
 //    }
 
 
     @AfterTest
     public void teardown(){
-
 
         driver.quit();
     }
