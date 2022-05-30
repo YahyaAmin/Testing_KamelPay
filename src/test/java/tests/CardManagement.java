@@ -1054,7 +1054,6 @@ public class CardManagement extends Base_Class {
         driver.findElement(By.xpath(transaction_history_button_on_card_management)).click();
         Thread.sleep(6000);
 
-
         driver.resetApp();
 
     }
