@@ -38,6 +38,19 @@ public class UsefulFunctions extends Base_Class {
     }
 
 
+
+    //get a Random single digit
+    public static String getRandomDigit() {
+        // It will generate a single digit random Number.
+        // from 0 to 9
+        Random rnd = new Random();
+        int number = rnd.nextInt(9);
+
+        // this will convert any number sequence into 6 character.
+        return String.format("%01d", number);
+    }
+
+
     public static String getRandomNumberStringWithRandomDigits() {
         // It will generate a random no. with random number of digits
         // from 0 to 99999999
