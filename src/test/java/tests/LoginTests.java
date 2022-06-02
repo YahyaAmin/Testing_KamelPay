@@ -83,11 +83,11 @@ public class LoginTests extends Base_Class {
 
 
 
-    @Test //Login with correct Phone no. and correct Password with pin login not setup
+    @Test(priority = 1) //Login with correct Phone no. and correct Password with pin login not setup
     @Order(1)
     public void loginCase1() throws InterruptedException {
 
-        //Thread.sleep(4000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
         driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
         //Thread.sleep(3000);
@@ -107,13 +107,13 @@ public class LoginTests extends Base_Class {
     }
 
 
-    @Test //Login with Pin after setting pin
+    @Test(priority = 2) //Login with Pin after setting pin
     @Order(2)
     public void loginCase2() throws InterruptedException {
 
         //login with phone no and password
 
-        //Thread.sleep(2000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
         driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
         //Thread.sleep(3000);
@@ -179,10 +179,10 @@ public class LoginTests extends Base_Class {
     }
 
     //Forgot password positive Case
-    @Test
+    @Test(priority = 4)
     @Order(4)
     public void loginCase4() throws InterruptedException {
-        //Thread.sleep(3000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(forgot_password_at_login_screen)).click();
         //Thread.sleep(3000);
         driver.findElement(By.xpath(e_id_field_at_forgot_password_screen)).sendKeys("784197848020307");
@@ -226,11 +226,11 @@ public class LoginTests extends Base_Class {
         driver.resetApp();
     }
 
-    @Test //Login with invalid phone number and valid password
+    @Test(priority = 5) //Login with invalid phone number and valid password
     @Order(5)
     public void loginCase5() throws InterruptedException {
 
-        Thread.sleep(3000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
         driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys(getRandomNumberString());
         Thread.sleep(3000);
@@ -247,11 +247,11 @@ public class LoginTests extends Base_Class {
         driver.resetApp();
     }
 
-    @Test //Enter valid phone number and invalid password at login
+    @Test(priority = 6) //Enter valid phone number and invalid password at login
     @Order(6)
     public void loginCase6() throws InterruptedException {
 
-        Thread.sleep(3000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
         driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
         Thread.sleep(3000);
@@ -277,12 +277,12 @@ public class LoginTests extends Base_Class {
     }
 
 
-    @Test //Login with pin and enter invalid pin
+    @Test(priority = 7) //Login with pin and enter invalid pin
     @Order(7)
     public void loginCase7() throws InterruptedException {
 
         //login with phone no and password
-        Thread.sleep(2000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
         driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
         Thread.sleep(3000);
@@ -347,11 +347,11 @@ public class LoginTests extends Base_Class {
         driver.resetApp();
     }
 
-    @Test //Forgot password function with valid E_ID and invalid Phone number
+    @Test(priority = 9) //Forgot password function with valid E_ID and invalid Phone number
     @Order(9)
     public void loginCase9() throws InterruptedException {
 
-        Thread.sleep(3000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(forgot_password_at_login_screen)).click();
         Thread.sleep(3000);
         driver.findElement(By.xpath(e_id_field_at_forgot_password_screen)).sendKeys("784197848020307");
@@ -367,12 +367,12 @@ public class LoginTests extends Base_Class {
         driver.resetApp();
     }
 
-    @Test //check cant login button on Login With Pin screen
+    @Test(priority = 10) //check cant login button on Login With Pin screen
     @Order(10)
-    public void loginCasr10() throws InterruptedException {
+    public void loginCase10() throws InterruptedException {
 
         //login with phone no and password
-        Thread.sleep(2000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
         driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
         Thread.sleep(3000);

@@ -202,6 +202,18 @@ public class UsefulFunctions extends Base_Class {
     }
 
 
-    //Scrolling function
+    public static String getRandomString(int lowerbound, int upperbound) {
+
+        //random no of characters
+        Random rand = new Random();
+        int random_integer = rand.nextInt(upperbound - lowerbound) + lowerbound;
+
+
+        String characters = "ABCD EFGH IJKL MNOP QRST UVWX YZabcd efghijkl mnopqrst uvwxyz0 123456789";
+        String pwd = RandomStringUtils.random(random_integer, characters);
+        return pwd;
+    }
+
+
 
 }

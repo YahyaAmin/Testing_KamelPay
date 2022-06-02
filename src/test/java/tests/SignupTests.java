@@ -117,11 +117,10 @@ public class SignupTests extends Base_Class {
     public String proceed_button_on_card_activation_page = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[3]";
 
 
-    @Test //Signup with PayD positive case
-    @Order(1)
+    @Test(priority = 1) //Signup with PayD positive case
     public void SignupCase1() throws InterruptedException {
 
-        Thread.sleep(4000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(dont_have_an_account_signup_button)).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath(payd_card_select_button_at_signup)).click();
@@ -168,11 +167,10 @@ public class SignupTests extends Base_Class {
 
     }
 
-    @Test //Signup with Centiv ID positive case
-    @Order(2)
+    @Test(priority = 2) //Signup with Centiv ID positive case
     public void SignupCase2() throws InterruptedException {
 
-        Thread.sleep(4000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(dont_have_an_account_signup_button)).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath(centiv_card_select_button_at_sign_up)).click();
@@ -217,11 +215,11 @@ public class SignupTests extends Base_Class {
         driver.resetApp();
     }
 
-    @Test //Signup with PayD and dont enter any phone number
-    @Order(3)
+    @Test(priority = 3) //Signup with PayD and dont enter any phone number
+
     public void SignupCase3() throws InterruptedException {
 
-        Thread.sleep(4000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(dont_have_an_account_signup_button)).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath(payd_card_select_button_at_signup)).click();
@@ -262,11 +260,10 @@ public class SignupTests extends Base_Class {
 
     }
 
-    @Test //Signup with PayD but username is empty
-    @Order(4)
+    @Test(priority = 4) //Signup with PayD but username is empty
     public void SignupCase4() throws InterruptedException {
 
-        Thread.sleep(4000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(dont_have_an_account_signup_button)).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath(payd_card_select_button_at_signup)).click();
@@ -306,11 +303,10 @@ public class SignupTests extends Base_Class {
 
     }
 
-    @Test //Signup with PayD but password is empty
-    @Order(5)
+    @Test(priority = 5) //Signup with PayD but password is empty
     public void SignupCase5() throws InterruptedException {
 
-        Thread.sleep(4000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(dont_have_an_account_signup_button)).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath(payd_card_select_button_at_signup)).click();
@@ -350,11 +346,10 @@ public class SignupTests extends Base_Class {
 
     }
 
-    @Test //Signup with PayD but confirm password field is empty
-    @Order(6)
+    @Test(priority = 6) //Signup with PayD but confirm password field is empty
     public void SignupCase6() throws InterruptedException {
 
-        Thread.sleep(4000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(dont_have_an_account_signup_button)).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath(payd_card_select_button_at_signup)).click();
@@ -398,11 +393,10 @@ public class SignupTests extends Base_Class {
 
     }
 
-    @Test //Signup with PayD and enter phone number with less than 9 digits
-    @Order(7)
+    @Test(priority = 7) //Signup with PayD and enter phone number with less than 9 digits
     public void SignupCase7() throws InterruptedException {
 
-        Thread.sleep(4000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(dont_have_an_account_signup_button)).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath(payd_card_select_button_at_signup)).click();
@@ -447,11 +441,10 @@ public class SignupTests extends Base_Class {
 
     }
 
-    @Test //Signup but username has special characters
-    @Order(8)
+    @Test(priority = 8) //Signup but username has special characters
     public void SignupCase8() throws InterruptedException {
 
-        Thread.sleep(4000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(dont_have_an_account_signup_button)).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath(payd_card_select_button_at_signup)).click();
@@ -488,11 +481,10 @@ public class SignupTests extends Base_Class {
 
     }
 
-    @Test //Signup but username has whitespaces
-    @Order(9)
+    @Test(priority = 9) //Signup but username has whitespaces
     public void SignupCase9() throws InterruptedException {
 
-        Thread.sleep(4000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(dont_have_an_account_signup_button)).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath(payd_card_select_button_at_signup)).click();
@@ -529,11 +521,10 @@ public class SignupTests extends Base_Class {
 
     }
 
-    @Test //Signup but enter password and confirm password are different
-    @Order(10)
-    public void SignupCasr10() throws InterruptedException {
+    @Test(priority = 10) //Signup but enter password and confirm password are different
+    public void SignupCase10() throws InterruptedException {
 
-        Thread.sleep(4000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(dont_have_an_account_signup_button)).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath(centiv_card_select_button_at_sign_up)).click();
@@ -575,11 +566,10 @@ public class SignupTests extends Base_Class {
         driver.resetApp();
     }
 
-    @Test //Signup but password does not have an uppercase letter
-    @Order(11)
-    public void SignupCasr11() throws InterruptedException {
+    @Test(priority = 11) //Signup but password does not have an uppercase letter
+    public void SignupCase11() throws InterruptedException {
 
-        Thread.sleep(4000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(dont_have_an_account_signup_button)).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath(payd_card_select_button_at_signup)).click();
@@ -623,11 +613,10 @@ public class SignupTests extends Base_Class {
 
     }
 
-    @Test //Signup but password does not have a number
-    @Order(12)
-    public void SignupCasr12() throws InterruptedException {
+    @Test(priority = 12) //Signup but password does not have a number
+    public void SignupCase12() throws InterruptedException {
 
-        Thread.sleep(4000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(dont_have_an_account_signup_button)).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath(payd_card_select_button_at_signup)).click();
@@ -672,11 +661,10 @@ public class SignupTests extends Base_Class {
     }
 
 
-    @Test //Signup but password does not have a lowercase letter
-    @Order(13)
-    public void SignupCasr13() throws InterruptedException {
+    @Test(priority = 13) //Signup but password does not have a lowercase letter
+    public void SignupCase13() throws InterruptedException {
 
-        Thread.sleep(4000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(dont_have_an_account_signup_button)).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath(payd_card_select_button_at_signup)).click();
@@ -720,11 +708,10 @@ public class SignupTests extends Base_Class {
 
     }
 
-    @Test //Signup but password does not have a special character
-    @Order(14)
-    public void SignupCasr14() throws InterruptedException {
+    @Test(priority = 14) //Signup but password does not have a special character
+    public void SignupCase14() throws InterruptedException {
 
-        Thread.sleep(4000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(dont_have_an_account_signup_button)).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath(payd_card_select_button_at_signup)).click();
@@ -769,11 +756,10 @@ public class SignupTests extends Base_Class {
     }
 
 
-    @Test //Signup but password is too short
-    @Order(15)
-    public void SignupCasr15() throws InterruptedException {
+    @Test(priority = 15) //Signup but password is too short
+    public void SignupCase15() throws InterruptedException {
 
-        Thread.sleep(4000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(dont_have_an_account_signup_button)).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath(payd_card_select_button_at_signup)).click();
@@ -817,11 +803,10 @@ public class SignupTests extends Base_Class {
 
     }
 
-    @Test //Signup and enter credentials and enter wrong OTP
-    @Order(16)
-    public void SignupCasr16() throws InterruptedException {
+    @Test(priority = 16) //Signup and enter credentials and enter wrong OTP
+    public void SignupCase16() throws InterruptedException {
 
-        Thread.sleep(4000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(dont_have_an_account_signup_button)).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath(payd_card_select_button_at_signup)).click();
@@ -863,11 +848,10 @@ public class SignupTests extends Base_Class {
         driver.resetApp();
     }
 
-    @Test //Signup and enter credentials and enter OTP less than 6 digits
-    @Order(17)
-    public void SignupCasr17() throws InterruptedException {
+    @Test(priority = 17) //Signup and enter credentials and enter OTP less than 6 digits
+    public void SignupCase17() throws InterruptedException {
 
-        Thread.sleep(4000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(dont_have_an_account_signup_button)).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath(payd_card_select_button_at_signup)).click();
@@ -913,11 +897,10 @@ public class SignupTests extends Base_Class {
         driver.resetApp();
     }
 
-    @Test //Signup and enter credentials and leave OTP empty
-    @Order(18)
-    public void SignupCasr18() throws InterruptedException {
+    @Test(priority = 18) //Signup and enter credentials and leave OTP empty
+    public void SignupCase18() throws InterruptedException {
 
-        Thread.sleep(4000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(dont_have_an_account_signup_button)).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath(payd_card_select_button_at_signup)).click();
@@ -962,11 +945,10 @@ public class SignupTests extends Base_Class {
         driver.resetApp();
     }
 
-    @Test //Signup with PayD positive case and verify card
-    @Order(19)
-    public void SignupCasr19() throws InterruptedException {
+    @Test(priority = 19) //Signup with PayD positive case and verify card
+    public void SignupCase19() throws InterruptedException {
 
-        Thread.sleep(4000);
+        Thread.sleep(5000);
         driver.findElement(By.xpath(dont_have_an_account_signup_button)).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath(payd_card_select_button_at_signup)).click();
