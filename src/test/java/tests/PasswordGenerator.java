@@ -10,10 +10,14 @@ public final class PasswordGenerator {
         private static final String UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private static final String DIGITS = "0123456789";
         private static final String PUNCTUATION = "!@#$%&*()_+-=[]|,./?><:;^";
+
+        private static final String USE_SPACES = " ";
         private boolean useLower;
         private boolean useUpper;
         private boolean useDigits;
         private boolean usePunctuation;
+
+        private boolean useSpaces;
 
         private PasswordGenerator() {
             throw new UnsupportedOperationException("Empty constructor is not supported.");
@@ -24,6 +28,7 @@ public final class PasswordGenerator {
             this.useUpper = builder.useUpper;
             this.useDigits = builder.useDigits;
             this.usePunctuation = builder.usePunctuation;
+            this.useSpaces = builder.useSpaces;
         }
 
         public static class PasswordGeneratorBuilder {
@@ -33,11 +38,14 @@ public final class PasswordGenerator {
             private boolean useDigits;
             private boolean usePunctuation;
 
+            private boolean useSpaces;
+
             public PasswordGeneratorBuilder() {
                 this.useLower = false;
                 this.useUpper = false;
                 this.useDigits = false;
                 this.usePunctuation = false;
+                this.useSpaces = false;
             }
 
             /**
@@ -92,6 +100,11 @@ public final class PasswordGenerator {
                 return this;
             }
 
+            //my edit
+            public PasswordGeneratorBuilder useSpaces(boolean useSpaces) {
+                this.useSpaces = useSpaces;
+                return this;
+            }
             /**
              * Get an object to use.
              *
@@ -136,6 +149,10 @@ public final class PasswordGenerator {
             if (usePunctuation) {
                 charCategories.add(PUNCTUATION);
             }
+            if (useSpaces) {
+                charCategories.add(USE_SPACES);
+            }
+
 
             // Build the password.
             for (int i = 0; i < length; i++) {
