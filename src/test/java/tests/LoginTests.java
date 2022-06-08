@@ -136,7 +136,7 @@ public class LoginTests extends Base_Class {
         driver.findElement(By.xpath(three_lines_home_button_at_homescreen)).click();
         //Thread.sleep(3000);
         driver.findElement(By.xpath(settings_button_sidebar)).click();
-        //Thread.sleep(2000);
+        Thread.sleep(2000);
         driver.findElement(By.xpath(setup_pin_button_sidebar)).click();
         //Thread.sleep(2000);
         driver.findElement(By.xpath(enter_new_pin_1st)).click();

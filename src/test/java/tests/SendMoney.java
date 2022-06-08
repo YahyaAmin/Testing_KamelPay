@@ -15,6 +15,25 @@ import static tests.UsefulFunctions.getRandomNumberLowerAndUpperBound;
 public class SendMoney extends Base_Class{
 
 
+    public void scrollUp() {
+
+        //The viewing size of the device
+        Dimension size = driver.manage().window().getSize();
+
+        //x position set to mid-screen horizontally
+        int width = size.width / 2;
+
+        //Starting y location set to 80% of the height (near bottom)
+        int startPoint = (int) (size.getHeight() * 0.20);
+
+        //Ending y location set to 20% of the height (near top)
+        int endPoint = (int) (size.getHeight() * 0.80);
+
+        new TouchAction(driver).press(PointOption.point(width, startPoint)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(2000))).moveTo(PointOption.point(width, endPoint)).release().perform();
+
+    }
+
+
     public void scrollDown() {
 
         //The viewing size of the device
@@ -83,6 +102,7 @@ public class SendMoney extends Base_Class{
 
     }
 
+    public String track_history_button = "//android.widget.TextView[@text='Track History']";
 
     public String login_button_on_mainscreen = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.ScrollView/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[5]";
     public String phone_no_on_mainscreen_xpath = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.ScrollView/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.EditText";
@@ -145,6 +165,7 @@ public class SendMoney extends Base_Class{
 
     public String first_beneficiary_in_all_beneficiaries_send_money_screen = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[4]/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[1]/android.view.ViewGroup";
 
+    public String mobile_wallet_button_selector = "//android.widget.TextView[@text='Mobile Wallet']";
     public String click_outside_at_beneficiary_page_after_scrolling_down_cashpickup = "//android.widget.TextView[@text='Nationality']";
 
     public String enterNation(String country1){
@@ -433,6 +454,861 @@ public class SendMoney extends Base_Class{
         driver.resetApp();
 
     }
+
+
+    @Test(priority = 5) //Select PayD card and send money through mobile wallet
+    @Order(5)
+    public void SendMoneyCase5() throws InterruptedException {
+
+        String country = "Bangladesh";
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //send money payd card steps
+        scrollRight();
+        Thread.sleep(3000);
+
+        driver.findElement(By.xpath(send_money_button_payd_card)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(send_money_button_at_send_money_screen)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(enterPopularCountry(country))).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(mobile_wallet_button_selector)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(cash_pickup_selector_at_send_money_allied_bank_or_1st_bank_of_country)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(confirm_button_at_bank_confirmation_screen)).click();
+        Thread.sleep(4000);
+
+        //sender amount
+        driver.findElement(By.xpath(enter_sender_amount_field_at_send_money_page)).sendKeys(getRandomNumberLowerAndUpperBound(2,5));
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(next_button_at_send_money_screen_after_entering_amount)).click();
+        Thread.sleep(4000);
+
+        //enter beneficiary details steps
+        driver.findElement(By.xpath(first_name_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,false,true,false,false,1)+getRandomString(false,true,false,false,false,7));
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(last_name_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,false,true,false,false,1)+getRandomString(false,true,false,false,false,7));
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(phone_number_field_at_beneficiary_details_page)).sendKeys(getRandomNumberLowerAndUpperBound(11,12));
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+        Thread.sleep(1000);
+
+        scrollDown();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(nationality_selector_field_at_beneficiary_page)).click();
+        Thread.sleep(5000);
+
+        //send country and select country element function
+
+        driver.findElement(By.xpath(search_field_at_nationality_page)).sendKeys(country);
+        //select nationality function'
+        driver.findElement(By.xpath(enterNation(country))).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(remittance_purpose_at_beneficiary_details_page)).sendKeys(getRandomString(false,true,true,false, true,15));
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down_cashpickup)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(add_account_to_saved_list_checkbox)).click();
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down_cashpickup)).click();
+
+        scrollDown();
+
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(beneficiary_name_field_at_beneficiary_details)).sendKeys(getRandomString(false,true,true,false,true,10));
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(next_button_at_beneficiary_details_page)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(checkbox_button_at_confirmation_page)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(send_money_button_at_confirmation_page)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(otp_1st_field_after_confirming_payment)).sendKeys("666666");
+        driver.findElement(By.xpath(verify_button_after_otp_screen)).click();
+        Thread.sleep(10000);
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+    @Test(priority = 6) //Check if user can access track history
+    @Order
+    public void sendMoneyCase6() throws InterruptedException {
+
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //send money payd card steps
+        scrollRight();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(send_money_button_payd_card)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(track_history_button)).click();
+        Thread.sleep(7000);
+
+        driver.resetApp();
+
+
+    }
+
+
+    @Test(priority = 7) //Select PayD card and send money but first name is empty
+    @Order(7)
+    public void SendMoneyCase7() throws InterruptedException {
+
+        String country = "Pakistan";
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //send money payd card steps
+        scrollRight();
+        Thread.sleep(3000);
+
+        driver.findElement(By.xpath(send_money_button_payd_card)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(send_money_button_at_send_money_screen)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(enterPopularCountry(country))).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(bank_account_button_at_send_money)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(bank_account_selector_at_send_money_allied_bank_or_2nd_bank_of_country)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(confirm_button_at_bank_confirmation_screen)).click();
+        Thread.sleep(4000);
+
+        //sender amount
+        driver.findElement(By.xpath(enter_sender_amount_field_at_send_money_page)).sendKeys(getRandomNumberLowerAndUpperBound(2,5));
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(next_button_at_send_money_screen_after_entering_amount)).click();
+        Thread.sleep(4000);
+
+        //enter beneficiary details steps
+        driver.findElement(By.xpath(first_name_field_at_beneficiary_details_page)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(last_name_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,false,true,false,false,1)+getRandomString(false,true,false,false,false,7));
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(phone_number_field_at_beneficiary_details_page)).sendKeys(getRandomNumberLowerAndUpperBound(11,12));
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(account_title_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,true,true,false,false,8));
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+
+        scrollDown();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomString(false,false,true,false,false,2));
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomNumberLowerAndUpperBound(2,3));
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomString(false,false,true,false,false,4));
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomNumberLowerAndUpperBound(8,10));
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+        driver.findElement(By.xpath(nationality_selector_field_at_beneficiary_page)).click();
+        Thread.sleep(5000);
+
+        //send country and select country element function
+
+        driver.findElement(By.xpath(search_field_at_nationality_page)).sendKeys(country);
+        //select nationality function'
+        driver.findElement(By.xpath(enterNation(country))).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(remittance_purpose_at_beneficiary_details_page)).sendKeys(getRandomString(false,true,true,false, true,15));
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(add_account_to_saved_list_checkbox)).click();
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+
+        scrollDown();
+
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(beneficiary_name_field_at_beneficiary_details)).sendKeys(getRandomString(false,true,true,false,true,10));
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(next_button_at_beneficiary_details_page)).click();
+        Thread.sleep(4000);
+        scrollUp();
+        Thread.sleep(3000);
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+
+    @Test(priority = 8) //Select PayD card and send money but last name is empty
+    @Order(8)
+    public void SendMoneyCase8() throws InterruptedException {
+
+        String country = "Pakistan";
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //send money payd card steps
+        scrollRight();
+        Thread.sleep(3000);
+
+        driver.findElement(By.xpath(send_money_button_payd_card)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(send_money_button_at_send_money_screen)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(enterPopularCountry(country))).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(bank_account_button_at_send_money)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(bank_account_selector_at_send_money_allied_bank_or_2nd_bank_of_country)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(confirm_button_at_bank_confirmation_screen)).click();
+        Thread.sleep(4000);
+
+        //sender amount
+        driver.findElement(By.xpath(enter_sender_amount_field_at_send_money_page)).sendKeys(getRandomNumberLowerAndUpperBound(2,5));
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(next_button_at_send_money_screen_after_entering_amount)).click();
+        Thread.sleep(4000);
+
+        //enter beneficiary details steps
+        driver.findElement(By.xpath(first_name_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,false,true,false,false,1)+getRandomString(false,true,false,false,false,7));
+        Thread.sleep(1000);
+
+        //driver.findElement(By.xpath(last_name_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,false,true,false,false,1)+getRandomString(false,true,false,false,false,7));
+        //Thread.sleep(1000);
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(phone_number_field_at_beneficiary_details_page)).sendKeys(getRandomNumberLowerAndUpperBound(11,12));
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(account_title_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,true,true,false,false,8));
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+
+        scrollDown();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomString(false,false,true,false,false,2));
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomNumberLowerAndUpperBound(2,3));
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomString(false,false,true,false,false,4));
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomNumberLowerAndUpperBound(8,10));
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+        driver.findElement(By.xpath(nationality_selector_field_at_beneficiary_page)).click();
+        Thread.sleep(5000);
+
+        //send country and select country element function
+
+        driver.findElement(By.xpath(search_field_at_nationality_page)).sendKeys(country);
+        //select nationality function'
+        driver.findElement(By.xpath(enterNation(country))).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(remittance_purpose_at_beneficiary_details_page)).sendKeys(getRandomString(false,true,true,false, true,15));
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(add_account_to_saved_list_checkbox)).click();
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+
+        scrollDown();
+
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(beneficiary_name_field_at_beneficiary_details)).sendKeys(getRandomString(false,true,true,false,true,10));
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(next_button_at_beneficiary_details_page)).click();
+        Thread.sleep(4000);
+        scrollUp();
+        Thread.sleep(3000);
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+    @Test(priority = 9) //Select PayD card and send money but phone no. is empty
+    @Order(9)
+    public void SendMoneyCase9() throws InterruptedException {
+
+        String country = "Pakistan";
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //send money payd card steps
+        scrollRight();
+        Thread.sleep(3000);
+
+        driver.findElement(By.xpath(send_money_button_payd_card)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(send_money_button_at_send_money_screen)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(enterPopularCountry(country))).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(bank_account_button_at_send_money)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(bank_account_selector_at_send_money_allied_bank_or_2nd_bank_of_country)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(confirm_button_at_bank_confirmation_screen)).click();
+        Thread.sleep(4000);
+
+        //sender amount
+        driver.findElement(By.xpath(enter_sender_amount_field_at_send_money_page)).sendKeys(getRandomNumberLowerAndUpperBound(2,5));
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(next_button_at_send_money_screen_after_entering_amount)).click();
+        Thread.sleep(4000);
+
+        //enter beneficiary details steps
+        driver.findElement(By.xpath(first_name_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,false,true,false,false,1)+getRandomString(false,true,false,false,false,7));
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(last_name_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,false,true,false,false,1)+getRandomString(false,true,false,false,false,7));
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+        Thread.sleep(1000);
+        //driver.findElement(By.xpath(phone_number_field_at_beneficiary_details_page)).sendKeys(getRandomNumberLowerAndUpperBound(11,12));
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(account_title_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,true,true,false,false,8));
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+
+        scrollDown();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomString(false,false,true,false,false,2));
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomNumberLowerAndUpperBound(2,3));
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomString(false,false,true,false,false,4));
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomNumberLowerAndUpperBound(8,10));
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+        driver.findElement(By.xpath(nationality_selector_field_at_beneficiary_page)).click();
+        Thread.sleep(5000);
+
+        //send country and select country element function
+
+        driver.findElement(By.xpath(search_field_at_nationality_page)).sendKeys(country);
+        //select nationality function'
+        driver.findElement(By.xpath(enterNation(country))).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(remittance_purpose_at_beneficiary_details_page)).sendKeys(getRandomString(false,true,true,false, true,15));
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(add_account_to_saved_list_checkbox)).click();
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+
+        scrollDown();
+
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(beneficiary_name_field_at_beneficiary_details)).sendKeys(getRandomString(false,true,true,false,true,10));
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(next_button_at_beneficiary_details_page)).click();
+        Thread.sleep(4000);
+        scrollUp();
+        Thread.sleep(3000);
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+
+    @Test(priority = 10) //Select PayD card and send money but Account Title is empty
+    @Order(10)
+    public void SendMoneyCase10() throws InterruptedException {
+
+        String country = "Pakistan";
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //send money payd card steps
+        scrollRight();
+        Thread.sleep(3000);
+
+        driver.findElement(By.xpath(send_money_button_payd_card)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(send_money_button_at_send_money_screen)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(enterPopularCountry(country))).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(bank_account_button_at_send_money)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(bank_account_selector_at_send_money_allied_bank_or_2nd_bank_of_country)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(confirm_button_at_bank_confirmation_screen)).click();
+        Thread.sleep(4000);
+
+        //sender amount
+        driver.findElement(By.xpath(enter_sender_amount_field_at_send_money_page)).sendKeys(getRandomNumberLowerAndUpperBound(2,5));
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(next_button_at_send_money_screen_after_entering_amount)).click();
+        Thread.sleep(4000);
+
+        //enter beneficiary details steps
+        driver.findElement(By.xpath(first_name_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,false,true,false,false,1)+getRandomString(false,true,false,false,false,7));
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(last_name_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,false,true,false,false,1)+getRandomString(false,true,false,false,false,7));
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(phone_number_field_at_beneficiary_details_page)).sendKeys(getRandomNumberLowerAndUpperBound(11,12));
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+        Thread.sleep(1000);
+        //driver.findElement(By.xpath(account_title_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,true,true,false,false,8));
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+
+        scrollDown();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomString(false,false,true,false,false,2));
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomNumberLowerAndUpperBound(2,3));
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomString(false,false,true,false,false,4));
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomNumberLowerAndUpperBound(8,10));
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+        driver.findElement(By.xpath(nationality_selector_field_at_beneficiary_page)).click();
+        Thread.sleep(5000);
+
+        //send country and select country element function
+
+        driver.findElement(By.xpath(search_field_at_nationality_page)).sendKeys(country);
+        //select nationality function'
+        driver.findElement(By.xpath(enterNation(country))).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(remittance_purpose_at_beneficiary_details_page)).sendKeys(getRandomString(false,true,true,false, true,15));
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(add_account_to_saved_list_checkbox)).click();
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+
+        scrollDown();
+
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(beneficiary_name_field_at_beneficiary_details)).sendKeys(getRandomString(false,true,true,false,true,10));
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(next_button_at_beneficiary_details_page)).click();
+        Thread.sleep(4000);
+        scrollUp();
+        Thread.sleep(3000);
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+
+    @Test(priority = 11) //Select PayD card and send money but IBAN number is empty
+    @Order(11)
+    public void SendMoneyCase11() throws InterruptedException {
+
+        String country = "Pakistan";
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //send money payd card steps
+        scrollRight();
+        Thread.sleep(3000);
+
+        driver.findElement(By.xpath(send_money_button_payd_card)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(send_money_button_at_send_money_screen)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(enterPopularCountry(country))).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(bank_account_button_at_send_money)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(bank_account_selector_at_send_money_allied_bank_or_2nd_bank_of_country)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(confirm_button_at_bank_confirmation_screen)).click();
+        Thread.sleep(4000);
+
+        //sender amount
+        driver.findElement(By.xpath(enter_sender_amount_field_at_send_money_page)).sendKeys(getRandomNumberLowerAndUpperBound(2,5));
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(next_button_at_send_money_screen_after_entering_amount)).click();
+        Thread.sleep(4000);
+
+        //enter beneficiary details steps
+        driver.findElement(By.xpath(first_name_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,false,true,false,false,1)+getRandomString(false,true,false,false,false,7));
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(last_name_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,false,true,false,false,1)+getRandomString(false,true,false,false,false,7));
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(phone_number_field_at_beneficiary_details_page)).sendKeys(getRandomNumberLowerAndUpperBound(11,12));
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(account_title_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,true,true,false,false,8));
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+
+        scrollDown();
+        Thread.sleep(2000);
+        //driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomString(false,false,true,false,false,2));
+        //driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomNumberLowerAndUpperBound(2,3));
+        //driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomString(false,false,true,false,false,4));
+        //driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomNumberLowerAndUpperBound(8,10));
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+        driver.findElement(By.xpath(nationality_selector_field_at_beneficiary_page)).click();
+        Thread.sleep(5000);
+
+        //send country and select country element function
+
+        driver.findElement(By.xpath(search_field_at_nationality_page)).sendKeys(country);
+        //select nationality function'
+        driver.findElement(By.xpath(enterNation(country))).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(remittance_purpose_at_beneficiary_details_page)).sendKeys(getRandomString(false,true,true,false, true,15));
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(add_account_to_saved_list_checkbox)).click();
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+
+        scrollDown();
+
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(beneficiary_name_field_at_beneficiary_details)).sendKeys(getRandomString(false,true,true,false,true,10));
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(next_button_at_beneficiary_details_page)).click();
+        Thread.sleep(4000);
+        //scrollUp();
+        Thread.sleep(3000);
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+
+    @Test(priority = 12) //Select PayD card and send money but remittance purpose is empty
+    @Order(12)
+    public void SendMoneyCase12() throws InterruptedException {
+
+        String country = "Pakistan";
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //send money payd card steps
+        scrollRight();
+        Thread.sleep(3000);
+
+        driver.findElement(By.xpath(send_money_button_payd_card)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(send_money_button_at_send_money_screen)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(enterPopularCountry(country))).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(bank_account_button_at_send_money)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(bank_account_selector_at_send_money_allied_bank_or_2nd_bank_of_country)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(confirm_button_at_bank_confirmation_screen)).click();
+        Thread.sleep(4000);
+
+        //sender amount
+        driver.findElement(By.xpath(enter_sender_amount_field_at_send_money_page)).sendKeys(getRandomNumberLowerAndUpperBound(2,5));
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(next_button_at_send_money_screen_after_entering_amount)).click();
+        Thread.sleep(4000);
+
+        //enter beneficiary details steps
+        driver.findElement(By.xpath(first_name_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,false,true,false,false,1)+getRandomString(false,true,false,false,false,7));
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(last_name_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,false,true,false,false,1)+getRandomString(false,true,false,false,false,7));
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(phone_number_field_at_beneficiary_details_page)).sendKeys(getRandomNumberLowerAndUpperBound(11,12));
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(account_title_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,true,true,false,false,8));
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+
+        scrollDown();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomString(false,false,true,false,false,2));
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomNumberLowerAndUpperBound(2,3));
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomString(false,false,true,false,false,4));
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomNumberLowerAndUpperBound(8,10));
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+        driver.findElement(By.xpath(nationality_selector_field_at_beneficiary_page)).click();
+        Thread.sleep(5000);
+
+        //send country and select country element function
+
+        driver.findElement(By.xpath(search_field_at_nationality_page)).sendKeys(country);
+        //select nationality function'
+        driver.findElement(By.xpath(enterNation(country))).click();
+        Thread.sleep(5000);
+        //driver.findElement(By.xpath(remittance_purpose_at_beneficiary_details_page)).sendKeys(getRandomString(false,true,true,false, true,15));
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(add_account_to_saved_list_checkbox)).click();
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+
+        scrollDown();
+
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(beneficiary_name_field_at_beneficiary_details)).sendKeys(getRandomString(false,true,true,false,true,10));
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(next_button_at_beneficiary_details_page)).click();
+        Thread.sleep(4000);
+        //scrollUp();
+        Thread.sleep(3000);
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+
+
+    @Test(priority = 13) //Select PayD card and send money but beneficiary name is empty
+    @Order(13)
+    public void SendMoneyCase13() throws InterruptedException {
+
+        String country = "Pakistan";
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //send money payd card steps
+        scrollRight();
+        Thread.sleep(3000);
+
+        driver.findElement(By.xpath(send_money_button_payd_card)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(send_money_button_at_send_money_screen)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(enterPopularCountry(country))).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(bank_account_button_at_send_money)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(bank_account_selector_at_send_money_allied_bank_or_2nd_bank_of_country)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(confirm_button_at_bank_confirmation_screen)).click();
+        Thread.sleep(4000);
+
+        //sender amount
+        driver.findElement(By.xpath(enter_sender_amount_field_at_send_money_page)).sendKeys(getRandomNumberLowerAndUpperBound(2,5));
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(next_button_at_send_money_screen_after_entering_amount)).click();
+        Thread.sleep(4000);
+
+        //enter beneficiary details steps
+        driver.findElement(By.xpath(first_name_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,false,true,false,false,1)+getRandomString(false,true,false,false,false,7));
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(last_name_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,false,true,false,false,1)+getRandomString(false,true,false,false,false,7));
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(phone_number_field_at_beneficiary_details_page)).sendKeys(getRandomNumberLowerAndUpperBound(11,12));
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(account_title_field_at_beneficiary_details_page)).sendKeys(getRandomString(false,true,true,false,false,8));
+        driver.findElement(By.xpath(click_outside_field_at_beneficiary_page)).click();
+
+        scrollDown();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomString(false,false,true,false,false,2));
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomNumberLowerAndUpperBound(2,3));
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomString(false,false,true,false,false,4));
+        driver.findElement(By.xpath(iban_account_field_no_at_beneficiary_page)).sendKeys(getRandomNumberLowerAndUpperBound(8,10));
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+        driver.findElement(By.xpath(nationality_selector_field_at_beneficiary_page)).click();
+        Thread.sleep(5000);
+
+        //send country and select country element function
+
+        driver.findElement(By.xpath(search_field_at_nationality_page)).sendKeys(country);
+        //select nationality function'
+        driver.findElement(By.xpath(enterNation(country))).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(remittance_purpose_at_beneficiary_details_page)).sendKeys(getRandomString(false,true,true,false, true,15));
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(add_account_to_saved_list_checkbox)).click();
+        driver.findElement(By.xpath(click_outside_at_beneficiary_page_after_scrolling_down)).click();
+
+        scrollDown();
+
+        Thread.sleep(2000);
+        //driver.findElement(By.xpath(beneficiary_name_field_at_beneficiary_details)).sendKeys(getRandomString(false,true,true,false,true,10));
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(next_button_at_beneficiary_details_page)).click();
+        Thread.sleep(4000);
+        //scrollUp();
+        Thread.sleep(3000);
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+
+    @Test(priority = 14) //Select PayD card and send money but sender amount is zero
+    @Order(14)
+    public void SendMoneyCase14() throws InterruptedException {
+
+        String country = "Pakistan";
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //send money payd card steps
+        scrollRight();
+        Thread.sleep(3000);
+
+        driver.findElement(By.xpath(send_money_button_payd_card)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(send_money_button_at_send_money_screen)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(enterPopularCountry(country))).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(bank_account_button_at_send_money)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(bank_account_selector_at_send_money_allied_bank_or_2nd_bank_of_country)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(confirm_button_at_bank_confirmation_screen)).click();
+        Thread.sleep(4000);
+
+        //sender amount
+        driver.findElement(By.xpath(enter_sender_amount_field_at_send_money_page)).sendKeys("0");
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(next_button_at_send_money_screen_after_entering_amount)).click();
+        Thread.sleep(4000);
+
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
 
 
 }
