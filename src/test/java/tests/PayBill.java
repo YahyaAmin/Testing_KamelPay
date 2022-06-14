@@ -5,10 +5,25 @@ import org.springframework.core.annotation.Order;
 import org.testng.annotations.Test;
 
 import static tests.UsefulFunctions.getRandomNumberLowerAndUpperBound;
+import static tests.UsefulFunctions.getRandomString;
 
 
 public class PayBill extends Base_Class{
 
+
+    public String getRandomString(boolean Digits, boolean Lower, boolean Upper, boolean Punctuation, boolean Spaces, int length) {
+
+        PasswordGenerator passwordGenerator = new PasswordGenerator.PasswordGeneratorBuilder()
+                .useDigits(Digits)
+                .useLower(Lower)
+                .useUpper(Upper)
+                .usePunctuation(Punctuation)
+                .useSpaces(Spaces)
+                .build();
+        String password = passwordGenerator.generate(length); // output ex.: lrU12fmM 75iwI90o
+        return password;
+
+    }
     public String login_button_on_mainscreen = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.ScrollView/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[5]";
     public String phone_no_on_mainscreen_xpath = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.ScrollView/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.EditText";
     public String password_on_mainscreen_xpath = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.ScrollView/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[3]/android.widget.EditText";
@@ -51,7 +66,7 @@ public class PayBill extends Base_Class{
     public String enter_customer_id_at_utility_bill_payment = "//android.widget.EditText[@text='Enter customer id.']";
 
     public String enter_account_number_field_at_utility_bill_payment = "//android.widget.EditText[@text='Enter account number.']";
-    public String next_button_after_entering_bill_details = "//android.view.ViewGroup[@index='9']";
+    public String next_button_after_entering_bill_details = "//android.widget.TextView[@text='Next']";
 
     public String next_button_at_utility_screen = "//android.widget.TextView[@text='Next']";
 
@@ -91,6 +106,12 @@ public class PayBill extends Base_Class{
     public String zong_package = "//android.widget.TextView[@text='Zong USD $15 (PKR 1,785)']";
 
     public String mobile_number_field = "//android.widget.EditText[@text='Enter mobile number.']";
+
+    public String add_account_to_saved_list_checkbox = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.ScrollView/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[4]/android.view.ViewGroup";
+
+    public String beneficiary_name_field = "//android.widget.EditText[@text='Beneficiary name']";
+
+    public String click_outside_on_beneficiary_details_page = "//android.widget.TextView[@text='Account Number']";
 
 
 
@@ -839,6 +860,706 @@ public class PayBill extends Base_Class{
         driver.findElement(By.xpath(enter_reference_number_field)).sendKeys("18739209142040");
         driver.findElement(By.xpath(next_button_at_utility_screen)).click();
         Thread.sleep(8000);
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+
+
+    @Test(priority = 17) //Pay Bill with Pampanga I Electric Corp positive case
+    @Order(17)
+    public void PayBillCase17() throws InterruptedException {
+
+        //login steps
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //Pay Bill steps
+        driver.findElement(By.xpath(pay_bill_button_mainscreen)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(pay_new_bill_button_paybill_screen)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(search_country_field_at_pay_new_bill_screen)).sendKeys("Philippines");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_country_philippines)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(select_bill_type_utility)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(search_utility_field)).sendKeys("Pampanga");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_pampanga_on_utility)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(enter_subscriber_name)).sendKeys("JOHN DOE");
+        driver.findElement(By.xpath(enter_account_number_field_at_utility_bill_payment)).sendKeys("06066679");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(add_account_to_saved_list_checkbox)).click();
+        driver.findElement(By.xpath(beneficiary_name_field)).sendKeys(getRandomString(false, true,true,false,true,9));
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(click_outside_on_beneficiary_details_page)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(next_button_after_entering_bill_details)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(enter_amount_field)).sendKeys(getRandomNumberLowerAndUpperBound(2,4));
+        driver.findElement(By.xpath(pay_button_after_entering_amount)).click();
+        Thread.sleep(8000);
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+
+    @Test(priority = 18) //Pay Bill with KSEB(India) but mobile number is empty
+    @Order(18)
+    public void PayBillCase18() throws InterruptedException {
+
+
+        //login steps
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //Pay Bill steps
+        driver.findElement(By.xpath(pay_bill_button_mainscreen)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(pay_new_bill_button_paybill_screen)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(search_country_field_at_pay_new_bill_screen)).sendKeys("India");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_country_india)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(select_bill_type_utility)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(search_utility_field)).sendKeys("KSEB");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_KSEB_at_utility)).click();
+        Thread.sleep(4000);
+        //driver.findElement(By.xpath(enter_mobile_number_at_utility_bill_payment)).sendKeys("9012345678");
+        driver.findElement(By.xpath(enter_consumer_number_at_utility_bill_payment)).sendKeys("1234567890123");
+        driver.findElement(By.xpath(next_button_after_entering_bill_details)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(next_button_after_entering_bill_details)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(next_button_after_entering_bill_details)).click();
+        Thread.sleep(3000);
+
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+
+
+    @Test(priority = 19) //Pay Bill with KSEB(India) but mobile number less than 10 digits
+    @Order(19)
+    public void PayBillCase19() throws InterruptedException {
+
+
+        //login steps
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //Pay Bill steps
+        driver.findElement(By.xpath(pay_bill_button_mainscreen)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(pay_new_bill_button_paybill_screen)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(search_country_field_at_pay_new_bill_screen)).sendKeys("India");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_country_india)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(select_bill_type_utility)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(search_utility_field)).sendKeys("KSEB");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_KSEB_at_utility)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(enter_mobile_number_at_utility_bill_payment)).sendKeys(getRandomNumberLowerAndUpperBound(1,9));
+        driver.findElement(By.xpath(enter_consumer_number_at_utility_bill_payment)).sendKeys("1234567890123");
+        driver.findElement(By.xpath(next_button_after_entering_bill_details)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(next_button_after_entering_bill_details)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(next_button_after_entering_bill_details)).click();
+        Thread.sleep(3000);
+
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+
+
+    @Test(priority = 20) //Pay Bill with KSEB(India) but mobile number more than 10 digits
+    @Order(20)
+    public void PayBillCase20() throws InterruptedException {
+
+
+        //login steps
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //Pay Bill steps
+        driver.findElement(By.xpath(pay_bill_button_mainscreen)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(pay_new_bill_button_paybill_screen)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(search_country_field_at_pay_new_bill_screen)).sendKeys("India");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_country_india)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(select_bill_type_utility)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(search_utility_field)).sendKeys("KSEB");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_KSEB_at_utility)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(enter_mobile_number_at_utility_bill_payment)).sendKeys(getRandomNumberLowerAndUpperBound(11,13));
+        driver.findElement(By.xpath(enter_consumer_number_at_utility_bill_payment)).sendKeys("1234567890123");
+        driver.findElement(By.xpath(next_button_after_entering_bill_details)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(next_button_after_entering_bill_details)).click();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(next_button_after_entering_bill_details)).click();
+        Thread.sleep(3000);
+
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+
+    @Test(priority = 21) //Pay Bill with KSEB(India) but enter random 10 digit mobile number
+    @Order(21)
+    public void PayBillCase21() throws InterruptedException {
+
+
+        //login steps
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //Pay Bill steps
+        driver.findElement(By.xpath(pay_bill_button_mainscreen)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(pay_new_bill_button_paybill_screen)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(search_country_field_at_pay_new_bill_screen)).sendKeys("India");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_country_india)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(select_bill_type_utility)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(search_utility_field)).sendKeys("KSEB");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_KSEB_at_utility)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(enter_mobile_number_at_utility_bill_payment)).sendKeys(getRandomNumberLowerAndUpperBound(10,11));
+        driver.findElement(By.xpath(enter_consumer_number_at_utility_bill_payment)).sendKeys("1234567890123");
+        driver.findElement(By.xpath(next_button_after_entering_bill_details)).click();
+        Thread.sleep(8000);
+
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+
+    @Test(priority = 22) //Pay Bill with KSEB(India) but consumer number is empty
+    @Order(22)
+    public void PayBillCase22() throws InterruptedException {
+
+
+        //login steps
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //Pay Bill steps
+        driver.findElement(By.xpath(pay_bill_button_mainscreen)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(pay_new_bill_button_paybill_screen)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(search_country_field_at_pay_new_bill_screen)).sendKeys("India");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_country_india)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(select_bill_type_utility)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(search_utility_field)).sendKeys("KSEB");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_KSEB_at_utility)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(enter_mobile_number_at_utility_bill_payment)).sendKeys("9012345678");
+        //driver.findElement(By.xpath(enter_consumer_number_at_utility_bill_payment)).sendKeys("1234567890123");
+        driver.findElement(By.xpath(next_button_after_entering_bill_details)).click();
+        Thread.sleep(8000);
+
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+
+
+    @Test(priority = 23) //Pay Bill with KSEB(India) but consumer number less than 13 digits
+    @Order(23)
+    public void PayBillCase23() throws InterruptedException {
+
+
+        //login steps
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //Pay Bill steps
+        driver.findElement(By.xpath(pay_bill_button_mainscreen)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(pay_new_bill_button_paybill_screen)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(search_country_field_at_pay_new_bill_screen)).sendKeys("India");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_country_india)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(select_bill_type_utility)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(search_utility_field)).sendKeys("KSEB");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_KSEB_at_utility)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(enter_mobile_number_at_utility_bill_payment)).sendKeys("9012345678");
+        driver.findElement(By.xpath(enter_consumer_number_at_utility_bill_payment)).sendKeys(getRandomNumberLowerAndUpperBound(1,13));
+        driver.findElement(By.xpath(next_button_after_entering_bill_details)).click();
+        Thread.sleep(8000);
+
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+
+    @Test(priority = 24) //Pay Bill with KSEB(India) but consumer number more than 13 digits
+    @Order(24)
+    public void PayBillCase24() throws InterruptedException {
+
+
+        //login steps
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //Pay Bill steps
+        driver.findElement(By.xpath(pay_bill_button_mainscreen)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(pay_new_bill_button_paybill_screen)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(search_country_field_at_pay_new_bill_screen)).sendKeys("India");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_country_india)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(select_bill_type_utility)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(search_utility_field)).sendKeys("KSEB");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_KSEB_at_utility)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(enter_mobile_number_at_utility_bill_payment)).sendKeys("9012345678");
+        driver.findElement(By.xpath(enter_consumer_number_at_utility_bill_payment)).sendKeys(getRandomNumberLowerAndUpperBound(14,15));
+        driver.findElement(By.xpath(next_button_after_entering_bill_details)).click();
+        Thread.sleep(8000);
+
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+
+
+    @Test(priority = 25) //Pay Bill with KSEB(India) but consumer number is a random 13 digit number
+    @Order(25)
+    public void PayBillCase25() throws InterruptedException {
+
+
+        //login steps
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //Pay Bill steps
+        driver.findElement(By.xpath(pay_bill_button_mainscreen)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(pay_new_bill_button_paybill_screen)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(search_country_field_at_pay_new_bill_screen)).sendKeys("India");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_country_india)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(select_bill_type_utility)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(search_utility_field)).sendKeys("KSEB");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_KSEB_at_utility)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(enter_mobile_number_at_utility_bill_payment)).sendKeys("9012345678");
+        driver.findElement(By.xpath(enter_consumer_number_at_utility_bill_payment)).sendKeys(getRandomNumberLowerAndUpperBound(13,14));
+        driver.findElement(By.xpath(next_button_after_entering_bill_details)).click();
+        Thread.sleep(8000);
+
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+
+    @Test(priority = 26) //Pay Bill with KSEB(India) but consumer number has spaces
+    @Order(26)
+    public void PayBillCase26() throws InterruptedException {
+
+
+        //login steps
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //Pay Bill steps
+        driver.findElement(By.xpath(pay_bill_button_mainscreen)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(pay_new_bill_button_paybill_screen)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(search_country_field_at_pay_new_bill_screen)).sendKeys("India");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_country_india)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(select_bill_type_utility)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(search_utility_field)).sendKeys("KSEB");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_KSEB_at_utility)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(enter_mobile_number_at_utility_bill_payment)).sendKeys("9012345678");
+        driver.findElement(By.xpath(enter_consumer_number_at_utility_bill_payment)).sendKeys(getRandomString(true,false,false,false,true,13));
+        driver.findElement(By.xpath(next_button_after_entering_bill_details)).click();
+        Thread.sleep(8000);
+
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+
+    @Test(priority = 27) //Pay Bill with KSEB(India) but consumer number has special characters
+    @Order(27)
+    public void PayBillCase27() throws InterruptedException {
+
+
+        //login steps
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //Pay Bill steps
+        driver.findElement(By.xpath(pay_bill_button_mainscreen)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(pay_new_bill_button_paybill_screen)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(search_country_field_at_pay_new_bill_screen)).sendKeys("India");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_country_india)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(select_bill_type_utility)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(search_utility_field)).sendKeys("KSEB");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_KSEB_at_utility)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(enter_mobile_number_at_utility_bill_payment)).sendKeys("9012345678");
+        driver.findElement(By.xpath(enter_consumer_number_at_utility_bill_payment)).sendKeys(getRandomString(true,false,false,true,false,13));
+        driver.findElement(By.xpath(next_button_after_entering_bill_details)).click();
+        Thread.sleep(8000);
+
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+
+    @Test(priority = 28) //Pay Bill with KSEB(India) but mobile number has spaces
+    @Order(28)
+    public void PayBillCase28() throws InterruptedException {
+
+
+        //login steps
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //Pay Bill steps
+        driver.findElement(By.xpath(pay_bill_button_mainscreen)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(pay_new_bill_button_paybill_screen)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(search_country_field_at_pay_new_bill_screen)).sendKeys("India");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_country_india)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(select_bill_type_utility)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(search_utility_field)).sendKeys("KSEB");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_KSEB_at_utility)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(enter_mobile_number_at_utility_bill_payment)).sendKeys(getRandomString(true,false,false,false,true,9));
+        driver.findElement(By.xpath(enter_consumer_number_at_utility_bill_payment)).sendKeys("1234567890123");
+        driver.findElement(By.xpath(next_button_after_entering_bill_details)).click();
+        Thread.sleep(8000);
+
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+
+    @Test(priority = 29) //Pay Bill with KSEB(India) but mobile number has special characters
+    @Order(29)
+    public void PayBillCase29() throws InterruptedException {
+
+
+        //login steps
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //Pay Bill steps
+        driver.findElement(By.xpath(pay_bill_button_mainscreen)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(pay_new_bill_button_paybill_screen)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(search_country_field_at_pay_new_bill_screen)).sendKeys("India");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_country_india)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(select_bill_type_utility)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(search_utility_field)).sendKeys("KSEB");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_KSEB_at_utility)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(enter_mobile_number_at_utility_bill_payment)).sendKeys(getRandomString(true,false,false,true,false,9));
+        driver.findElement(By.xpath(enter_consumer_number_at_utility_bill_payment)).sendKeys("1234567890123");
+        driver.findElement(By.xpath(next_button_after_entering_bill_details)).click();
+        Thread.sleep(8000);
+
+
+        //logged in
+        //close driver
+        driver.resetApp();
+
+    }
+
+
+    @Test(priority = 30) //Pay Bill with Pampanga I Electric Corp but leave beneficiary name empty
+    @Order(30)
+    public void PayBillCase30() throws InterruptedException {
+
+        //login steps
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(phone_no_on_mainscreen_xpath)).sendKeys("123456789");
+        //Thread.sleep(3000);
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).clear();
+        driver.findElement(By.xpath(password_on_mainscreen_xpath)).sendKeys("Password123!");
+        //Thread.sleep(2000);
+        driver.findElement(By.xpath(login_button_on_mainscreen)).click();
+        //Thread.sleep(3000);
+
+        //dont allow biometric
+        driver.findElement(By.xpath(dont_allow_biometric_button_xpath)).click();
+        Thread.sleep(4000);
+
+        //Pay Bill steps
+        driver.findElement(By.xpath(pay_bill_button_mainscreen)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(pay_new_bill_button_paybill_screen)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(search_country_field_at_pay_new_bill_screen)).sendKeys("Philippines");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_country_philippines)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(select_bill_type_utility)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(search_utility_field)).sendKeys("Pampanga");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(select_pampanga_on_utility)).click();
+        Thread.sleep(4000);
+        driver.findElement(By.xpath(enter_subscriber_name)).sendKeys("JOHN DOE");
+        driver.findElement(By.xpath(enter_account_number_field_at_utility_bill_payment)).sendKeys("06066679");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(add_account_to_saved_list_checkbox)).click();
+        //driver.findElement(By.xpath(beneficiary_name_field)).sendKeys(getRandomString(false, true,true,false,true,9));
+        Thread.sleep(1000);
+        driver.findElement(By.xpath(click_outside_on_beneficiary_details_page)).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(next_button_after_entering_bill_details)).click();
+        Thread.sleep(3000);
 
         //logged in
         //close driver
